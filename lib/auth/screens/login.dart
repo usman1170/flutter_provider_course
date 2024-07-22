@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider_course/auth/provider/login_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,8 +12,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    // final authProvider = Provider.of<AuthProvider>(context, listen: false);
     print("top build");
     return Scaffold(
       appBar: AppBar(
@@ -25,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
+                controller: _email,
                 decoration: const InputDecoration(
                   hintText: "Email",
                 ),
@@ -33,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 16,
               ),
               TextFormField(
+                controller: _password,
                 decoration: const InputDecoration(
                   hintText: "Password",
                 ),
@@ -40,7 +47,22 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 16,
               ),
-              ElevatedButton(onPressed: () {}, child: const Text("Login"))
+              Consumer<AuthProvider>(builder: (context, value, child) {
+                return ElevatedButton(
+                  onPressed: () {
+                    value.login(
+                        _email.text.toString(), _password.text.toString());
+                  },
+                  child: value.isLoading
+                      ? const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                          ),
+                        )
+                      : const Text("Login"),
+                );
+              })
             ],
           ),
         ),

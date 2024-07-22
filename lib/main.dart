@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_course/auth/provider/login_provider.dart';
 import 'package:provider_course/auth/screens/login.dart';
 import 'package:provider_course/counter/provider/count_provider.dart';
 import 'package:provider_course/favourites/provider/fev_provider.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SliderProvider()),
         ChangeNotifierProvider(create: (_) => FavouriteProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: Builder(builder: (context) {
         final themeProvider = Provider.of<ThemeProvider>(context);
